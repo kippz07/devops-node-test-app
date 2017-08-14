@@ -6,12 +6,20 @@ end
 
 Vagrant.configure("2") do |config|
  
-  config.vm.box = "ubuntu/xenial64"
-  config.vm.network "private_network", ip: "192.168.10.100"
-  config.hostsupdater.aliases = ["development.local"]
+  config.vm.define "app" do |app|
+    app.vm.box = "ubuntu/xenial64"
+    app.vm.network "private_network", ip: "192.168.10.100"
+    app.hostsupdater.aliases = ["dev.local"]
+    app.vm.synced_folder ".", "/home/ubuntu/app"
+    app.vm.provision "shell", path: "environment/box_app/provision.sh", privileged: false
+    app.vm.provision "shell", inline: "echo 'export DB_HOST=mongodb://192.168.10.101/test' >> .bash_profile"
+  end
 
-  config.vm.synced_folder ".", "/home/ubuntu/app"
-
-  config.vm.provision "shell", path: "environment/provision.sh", privileged: false
-  
+  config.vm.define "db" do |db|
+    db.vm.box = "ubuntu/xenial64"
+    db.vm.network "private_network", ip: "192.168.10.101"
+    db.hostsupdater.aliases = ["db.local"]
+    db.vm.synced_folder "./environment", "/home/ubuntu/app/environment"
+    db.vm.provision "shell", path: "environment/box_db/provision.sh", privileged: false
+  end
 end

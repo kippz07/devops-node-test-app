@@ -13,5 +13,6 @@ sudo apt-get install -y build-essential
 sudo npm install -g pm2
 
 sudo rm /etc/nginx/sites-available/default
-sudo cp /home/ubuntu/app/environment/templates/default /etc/nginx/sites-available/default
+sudo cp /home/ubuntu/app/environment/box_app/templates/default /etc/nginx/sites-available/default
 sudo service nginx reload
+

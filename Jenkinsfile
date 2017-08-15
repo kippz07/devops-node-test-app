@@ -9,7 +9,6 @@ node('master') {
             sh '''ssh ubuntu@ec2-18-220-104-193.us-east-2.compute.amazonaws.com << EOF
                 export DB_HOST=mongodb://18.220.196.83/test
                 cd app
-                // ./environment/box_app/provision.sh
                 berks vender cookbooks
                 sudo chef-client --local-mode --runlist 'recipe[node-server]'
                 npm install
@@ -26,7 +25,8 @@ node('master') {
             sh '''ssh ubuntu@ec2-52-15-176-248.us-east-2.compute.amazonaws.com << EOF
                 export DB_HOST=mongodb://18.220.196.83/test
                 cd app
-                ./environment/box_app/provision.sh
+                berks vender cookbooks
+                sudo chef-client --local-mode --runlist 'recipe[node-server]'
                 npm install
                 pm2 stop app.js
                 pm2 start app.js'''

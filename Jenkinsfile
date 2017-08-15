@@ -1,5 +1,6 @@
 node('master') {
     
+    cleanWs()
     git credentialsId: '9fca6f6e-bb77-4462-bb38-a25fac2d5ef1', url: 'git@github.com:kippz07/devops-node-test-app.git'
     
     stage('testing') {

@@ -8,7 +8,7 @@ node('master') {
             sh 'scp -r . ubuntu@ec2-18-220-104-193.us-east-2.compute.amazonaws.com:/home/ubuntu/app'
             sh '''ssh ubuntu@ec2-18-220-104-193.us-east-2.compute.amazonaws.com << EOF
                 export DB_HOST=mongodb://18.220.196.83/test
-                berks install
+                cd app
                 berks vender cookbooks
                 sudo chef-client --local-mode --runlist 'recipe[node-server]'
                 npm install
@@ -24,7 +24,7 @@ node('master') {
             sh 'scp -r . ubuntu@ec2-52-15-176-248.us-east-2.compute.amazonaws.com:/home/ubuntu/app'
             sh '''ssh ubuntu@ec2-52-15-176-248.us-east-2.compute.amazonaws.com << EOF
                 export DB_HOST=mongodb://18.220.196.83/test
-                berks install
+                cd app
                 berks vender cookbooks
                 sudo chef-client --local-mode --runlist 'recipe[node-server]'
                 npm install
